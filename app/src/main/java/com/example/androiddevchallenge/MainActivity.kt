@@ -15,24 +15,54 @@
  */
 package com.example.androiddevchallenge
 
+
 import android.os.Bundle
+import android.view.View
+import android.view.WindowManager
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.ui.graphics.Color.Companion.Transparent
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.androiddevchallenge.ui.WelcomeOnboard
+import com.example.androiddevchallenge.ui.theme.AppThemeState
 import com.example.androiddevchallenge.ui.theme.MyTheme
+import com.example.androiddevchallenge.ui.theme.SystemUiController
+
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContent {
-            MyTheme {
-                MyApp()
-            }
+        window.apply {
+            clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+            addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+            decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+            statusBarColor = android.R.color.transparent
         }
+
+        setContent {
+            val systemUiController = remember { SystemUiController(window) }
+            val appTheme = remember { mutableStateOf(AppThemeState()) }
+            BaseView(appTheme.value, systemUiController, content = {
+                WelcomeOnboard(appTheme.value)
+            })
+        }
+    }
+}
+
+@Composable
+fun BaseView(
+    appThemeState: AppThemeState,
+    systemUiController: SystemUiController?,
+    content: @Composable () -> Unit
+) {
+    systemUiController?.setStatusBarColor(color = Transparent, darkIcons = appThemeState.darkTheme,)
+    MyTheme(darkTheme = appThemeState.darkTheme) {
+        content()
     }
 }
 
@@ -40,7 +70,7 @@ class MainActivity : AppCompatActivity() {
 @Composable
 fun MyApp() {
     Surface(color = MaterialTheme.colors.background) {
-        Text(text = "Ready... Set... GO!")
+//        LoginScreen1(text = "Ready... Set... GO!")
     }
 }
 
