@@ -20,6 +20,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 
 val LightColors = lightColors(
     primary = lprimary,
@@ -29,7 +30,7 @@ val LightColors = lightColors(
     onPrimary= lonPrimary,
     onSecondary = lonSecondary,
     onBackground = lonBackground,
-    onSurface = lonSurface
+    onSurface = lonSurface,
 )
 
 val DarkColors = darkColors(

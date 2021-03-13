@@ -50,7 +50,7 @@ class MainActivity : AppCompatActivity() {
             val systemUiController = remember { SystemUiController(window) }
             val appTheme = remember { mutableStateOf(AppThemeState()) }
             BaseView(appTheme.value, systemUiController, content = {
-                LoginOnboarding(appTheme.value)
+                HomeOnboard(appTheme.value)
             })
         }
     }
