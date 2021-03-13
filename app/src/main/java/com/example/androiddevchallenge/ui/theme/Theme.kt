@@ -65,6 +65,5 @@ fun MyTheme(
         typography = typography,
         shapes = shapes,
         content = content
-
     )
 }

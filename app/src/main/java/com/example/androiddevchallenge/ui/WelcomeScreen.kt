@@ -75,10 +75,11 @@ fun WelcomeScreen(value: AppThemeState, onLoginSuccess: () -> Unit) {
                             backgroundColor = MaterialTheme.colors.primary
                         ),
                         modifier = Modifier.fillMaxWidth()
-                        .height(50.dp)) {
+                        .height(72.dp)) {
                         Text(
                             text = LocalContext.current.getString(R.string.signup).toUpperCase(),
                             textAlign = TextAlign.Center,
+                            style = MaterialTheme.typography.button,
                             modifier = Modifier.fillMaxWidth()
                         )
                     }
@@ -87,7 +88,7 @@ fun WelcomeScreen(value: AppThemeState, onLoginSuccess: () -> Unit) {
                 item { Spacer(modifier = Modifier.height(8.dp)) }
 
                 item {
-                    OutlinedButton(onClick = { 
+                    OutlinedButton(onClick = {
 
                     }, border = BorderStroke(1.dp, MaterialTheme.colors.secondary),
                         shape = RoundedCornerShape(20), //50% percent
@@ -95,10 +96,10 @@ fun WelcomeScreen(value: AppThemeState, onLoginSuccess: () -> Unit) {
                             backgroundColor = MaterialTheme.colors.secondary
                         ),
                         modifier = Modifier.fillMaxWidth()
-                            .height(50.dp)) {
+                            .height(72.dp)) {
                         Text(
                             text = LocalContext.current.getString(R.string.login).toUpperCase(),
-                            style = MaterialTheme.typography.h6.copy(fontSize = 14.sp),
+                            style = MaterialTheme.typography.button,
                             textAlign = TextAlign.Center,
                             modifier = Modifier.fillMaxWidth()
                         )
