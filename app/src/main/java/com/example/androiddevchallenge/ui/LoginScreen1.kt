@@ -106,8 +106,6 @@ fun LoginScreen1(value: AppThemeState, onLoginSuccess: () -> Unit) {
                 horizontalAlignment = Alignment.CenterHorizontally,
 
                 ) {
-
-
                 item {
                     Text(
                         text = LocalContext.current.getString(R.string.login).toUpperCase(),
@@ -144,10 +142,7 @@ fun LoginScreen1(value: AppThemeState, onLoginSuccess: () -> Unit) {
                         ),
 
                         textStyle = MaterialTheme.typography.body1,
-                        colors = TextFieldDefaults.textFieldColors(
-                            textColor = MaterialTheme.colors.primary,
-                            backgroundColor = MaterialTheme.colors.onPrimary
-                        ),
+                        colors = TextFieldDefaults.textFieldColors(textColor = MaterialTheme.colors.primary),
                     )
                 }
                 item { Spacer(modifier = Modifier.height(8.dp)) }
@@ -177,10 +172,7 @@ fun LoginScreen1(value: AppThemeState, onLoginSuccess: () -> Unit) {
                         ),
 
                         textStyle = MaterialTheme.typography.body1,
-                        colors = TextFieldDefaults.textFieldColors(
-                            textColor = MaterialTheme.colors.primary,
-                            backgroundColor = MaterialTheme.colors.onPrimary
-                        ),
+                        colors = TextFieldDefaults.textFieldColors(textColor = MaterialTheme.colors.primary),
                     )
                 }
                 item { Spacer(modifier = Modifier.height(8.dp)) }
@@ -212,13 +204,15 @@ fun LoginScreen1(value: AppThemeState, onLoginSuccess: () -> Unit) {
                             HorizontalDottedProgressBar()
                         } else {
                             Text(
-                                text = LocalContext.current.getString(R.string.login)
+                                text = LocalContext.current.getString(R.string.signup)
                                     .toUpperCase(),
                                 textAlign = TextAlign.Center,
                                 style = MaterialTheme.typography.button,
                                 modifier = Modifier.fillMaxWidth()
                             )
                         }
+
+
                     }
                 }
 
@@ -238,7 +232,6 @@ fun LoginScreen1(value: AppThemeState, onLoginSuccess: () -> Unit) {
                         text = annotatedString.toAnnotatedString(),
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(32.dp)
                             .padding(vertical = 16.dp)
                             .clickable(onClick = {}),
                         textAlign = TextAlign.Center,
