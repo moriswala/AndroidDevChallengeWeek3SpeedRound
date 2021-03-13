@@ -20,8 +20,6 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.graphics.Color
-import com.example.androiddevchallenge.ui.theme.ColorPallet.GREEN
 
 val LightColors = lightColors(
     primary = lprimary,
@@ -44,10 +42,6 @@ val DarkColors = darkColors(
     onBackground = donBackground,
     onSurface = donSurface
 )
-
-enum class ColorPallet {
-    PURPLE, GREEN, ORANGE, BLUE
-}
 
 @Composable
 fun MyTheme(

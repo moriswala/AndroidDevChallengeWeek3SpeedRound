@@ -26,14 +26,16 @@ import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.graphics.Color.Companion.Transparent
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.androiddevchallenge.ui.LoginOnboarding
 import com.example.androiddevchallenge.ui.WelcomeOnboard
 import com.example.androiddevchallenge.ui.theme.AppThemeState
 import com.example.androiddevchallenge.ui.theme.MyTheme
 import com.example.androiddevchallenge.ui.theme.SystemUiController
 
-
+@ExperimentalComposeUiApi
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,7 +50,7 @@ class MainActivity : AppCompatActivity() {
             val systemUiController = remember { SystemUiController(window) }
             val appTheme = remember { mutableStateOf(AppThemeState()) }
             BaseView(appTheme.value, systemUiController, content = {
-                WelcomeOnboard(appTheme.value)
+                LoginOnboarding(appTheme.value)
             })
         }
     }

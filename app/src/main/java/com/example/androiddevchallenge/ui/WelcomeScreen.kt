@@ -46,8 +46,6 @@ fun WelcomeOnboard(value: AppThemeState) {
 
 @Composable
 fun WelcomeScreen(value: AppThemeState, onLoginSuccess: () -> Unit) {
-    var primary = MaterialTheme.colors.primary
-    var secondary =MaterialTheme.colors.secondary
     Scaffold {
         Box(modifier = Modifier.fillMaxHeight() ,content = {
             Image(imageVector = ImageVector.vectorResource(id = if(value.darkTheme) R.drawable.dark_welcome else R.drawable.light_welcome), contentDescription = "background",modifier = Modifier.fillMaxSize(), contentScale = ContentScale.FillBounds)

@@ -2,44 +2,59 @@ package com.example.androiddevchallenge.ui
 
 import android.animation.ValueAnimator
 import android.content.Context
+import android.text.style.UnderlineSpan
 import androidx.compose.animation.Crossfade
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Facebook
 import androidx.compose.material.icons.filled.RemoveRedEye
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.VpnKey
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.*
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import com.airbnb.lottie.LottieAnimationView
+import com.example.androiddevchallenge.R
 
 import com.example.androiddevchallenge.ui.common.HorizontalDottedProgressBar
+import com.example.androiddevchallenge.ui.theme.AppThemeState
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-
+@ExperimentalComposeUiApi
 @Composable
-fun LoginOnboarding() {
+fun LoginOnboarding(value: AppThemeState) {
     var loggedIn by remember { mutableStateOf(false) }
     val coroutineScope = rememberCoroutineScope()
     Crossfade(targetState = loggedIn) {
@@ -48,18 +63,18 @@ fun LoginOnboarding() {
                 loggedIn = false
             }
         } else {*/
-            LoginScreen1 {
-                coroutineScope.launch {
-                    delay(2000)
-                    loggedIn = true
-                }
+        LoginScreen1(value) {
+            coroutineScope.launch {
+                delay(2000)
+                loggedIn = true
             }
         }
     }
+}
 
-
+@ExperimentalComposeUiApi
 @Composable
-fun LoginScreen1(onLoginSuccess: () -> Unit) {
+fun LoginScreen1(value: AppThemeState, onLoginSuccess: () -> Unit) {
     Scaffold {
 
         //TextFields
@@ -73,186 +88,167 @@ fun LoginScreen1(onLoginSuccess: () -> Unit) {
         }
         val passwordInteractionState = remember { MutableInteractionSource() }
         val emailInteractionState = remember { MutableInteractionSource() }
+        val keyboardController = LocalSoftwareKeyboardController.current
 
-        LazyColumn(modifier = Modifier
-            .fillMaxSize()
-            .padding(horizontal = 16.dp)) {
-            item { Spacer(modifier = Modifier.height(20.dp)) }
-            item { LottieLoadingView(context = LocalContext.current) }
-            item {
-                Text(
-                    text = "Welcome Back",
-                    style = MaterialTheme.typography.h5.copy(fontWeight = FontWeight.ExtraBold),
-                    modifier = Modifier.padding(top = 8.dp)
-                )
-            }
-            item {
-                Text(
-                    text = "We have missed you, Let's start by Sign In!",
-                    style = MaterialTheme.typography.caption,
-                    modifier = Modifier.padding(bottom = 12.dp)
-                )
-            }
+        Box(modifier = Modifier.fillMaxHeight(), content = {
+            Image(
+                imageVector = ImageVector.vectorResource(id = if (value.darkTheme) R.drawable.dark_login else R.drawable.light_login),
+                contentDescription = "background",
+                modifier = Modifier.fillMaxSize(),
+                contentScale = ContentScale.FillBounds
+            )
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight()
+                    .padding(horizontal = 16.dp),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally,
 
-            item {
-                OutlinedTextField(
-                    value = email,
-                    leadingIcon = {
-                        Icon(
-                            imageVector = Icons.Default.Email,
-                            contentDescription = null
-                        )
-                    },
-                    maxLines = 1,
-                    isError = hasError,
-                    modifier = Modifier.fillMaxWidth(),
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Text,
-                        imeAction = ImeAction.Next
-                    ),
-                    label = { Text(text = "Email address") },
-                    placeholder = { Text(text = "abc@gmail.com") },
-                    onValueChange = {
-                        email = it
-                    },
-                    interactionSource = emailInteractionState,
-                )
-            }
-            item {
-                OutlinedTextField(
-                    value = password,
-                    leadingIcon = {
-                        Icon(
-                            imageVector = Icons.Default.VpnKey,
-                            contentDescription = null
-                        )
-                    },
-                    trailingIcon = {
-                        Icon(
-                            imageVector = Icons.Default.RemoveRedEye,
-                            contentDescription = null,
-                            modifier = Modifier.clickable(onClick = {
-                                passwordVisualTransformation =
-                                    if (passwordVisualTransformation != VisualTransformation.None) {
-                                        VisualTransformation.None
-                                    } else {
-                                        PasswordVisualTransformation()
-                                    }
-                            })
-                        )
-                    },
-                    maxLines = 1,
-                    isError = hasError,
-                    modifier = Modifier.fillMaxWidth(),
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Password,
-                        imeAction = ImeAction.Done
-                    ),
-                    label = { Text(text = "Password") },
-                    placeholder = { Text(text = "12334444") },
-                    onValueChange = {
-                        password = it
-                    },
-                    interactionSource = passwordInteractionState,
-                    visualTransformation = passwordVisualTransformation,
-                )
-            }
-            item {
-                var loading by remember { mutableStateOf(false) }
-                Button(
-                    onClick = {
-                        if (invalidInput(email.text, password.text)) {
-                            hasError = true
-                            loading = false
-                        } else {
-                            loading = true
-                            hasError = false
-                            onLoginSuccess.invoke()
-                        }
-                    },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 16.dp)
-                        .height(50.dp)
-                        .clip(CircleShape)
                 ) {
-                    if (loading) {
-                        HorizontalDottedProgressBar()
-                    } else {
-                        Text(text = "Log In")
+
+
+                item {
+                    Text(
+                        text = LocalContext.current.getString(R.string.login).toUpperCase(),
+                        style = MaterialTheme.typography.h1,
+                        modifier = Modifier.padding(top = 8.dp)
+                    )
+                }
+
+                item { Spacer(modifier = Modifier.height(32.dp)) }
+
+                item {
+                    TextField(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(56.dp),
+                        value = email,
+                        onValueChange = { email = it },
+                        label = {
+                            Text(
+                                text = LocalContext.current.getString(R.string.email_address),
+                                style = MaterialTheme.typography.caption,
+                                color = MaterialTheme.colors.primary
+                            )
+                        },
+                        keyboardOptions = KeyboardOptions(
+                            keyboardType = KeyboardType.Text,
+                            imeAction = ImeAction.Done,
+                        ),
+
+                        keyboardActions = KeyboardActions(
+                            onDone = {
+                                keyboardController?.hideSoftwareKeyboard()
+                            },
+                        ),
+
+                        textStyle = MaterialTheme.typography.body1,
+                        colors = TextFieldDefaults.textFieldColors(
+                            textColor = MaterialTheme.colors.primary,
+                            backgroundColor = MaterialTheme.colors.onPrimary
+                        ),
+                    )
+                }
+                item { Spacer(modifier = Modifier.height(8.dp)) }
+                item {
+                    TextField(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(56.dp),
+                        value = password,
+                        onValueChange = { password = it },
+                        label = {
+                            Text(
+                                text = LocalContext.current.getString(R.string.password),
+                                style = MaterialTheme.typography.caption,
+                                color = MaterialTheme.colors.primary
+                            )
+                        },
+                        keyboardOptions = KeyboardOptions(
+                            keyboardType = KeyboardType.Text,
+                            imeAction = ImeAction.Done,
+                        ),
+
+                        keyboardActions = KeyboardActions(
+                            onDone = {
+                                keyboardController?.hideSoftwareKeyboard()
+                            },
+                        ),
+
+                        textStyle = MaterialTheme.typography.body1,
+                        colors = TextFieldDefaults.textFieldColors(
+                            textColor = MaterialTheme.colors.primary,
+                            backgroundColor = MaterialTheme.colors.onPrimary
+                        ),
+                    )
+                }
+                item { Spacer(modifier = Modifier.height(8.dp)) }
+                item {
+                    var loading by remember { mutableStateOf(false) }
+                    OutlinedButton(
+                        onClick = {
+                            if (invalidInput(email.text, password.text)) {
+                                hasError = true
+                                loading = false
+                            } else {
+                                loading = true
+                                hasError = false
+                                onLoginSuccess.invoke()
+                            }
+                        },
+                        border = BorderStroke(1.dp, MaterialTheme.colors.primary),
+                        shape = RoundedCornerShape(20), //50% percent
+                        colors = ButtonDefaults.outlinedButtonColors(
+                            contentColor = MaterialTheme.colors.onPrimary,
+                            backgroundColor = MaterialTheme.colors.primary
+                        ),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(72.dp)
+                    ) {
+
+                        if (loading) {
+                            HorizontalDottedProgressBar()
+                        } else {
+                            Text(
+                                text = LocalContext.current.getString(R.string.login)
+                                    .toUpperCase(),
+                                textAlign = TextAlign.Center,
+                                style = MaterialTheme.typography.button,
+                                modifier = Modifier.fillMaxWidth()
+                            )
+                        }
                     }
                 }
-            }
-            item {
-                Box(modifier = Modifier.padding(vertical = 16.dp)) {
-                    Spacer(
+
+                item {
+                    val primaryColor = MaterialTheme.colors.primary
+                    val annotatedString = remember {
+                        AnnotatedString.Builder("Don't have an account? Sign up")
+                            .apply {
+                                addStyle(
+                                    style = SpanStyle(textDecoration = TextDecoration.Underline),
+                                    23,
+                                    30
+                                )
+                            }
+                    }
+                    Text(
+                        text = annotatedString.toAnnotatedString(),
                         modifier = Modifier
-                            .align(Alignment.Center)
-                            .height(1.dp)
                             .fillMaxWidth()
-                            .background(Color.LightGray)
-                    )
-                    Text(
-                        text = "Or use",
-                        color = Color.LightGray,
-                        modifier = Modifier
-                            .align(Alignment.Center)
-                            .background(MaterialTheme.colors.background)
-                            .padding(horizontal = 16.dp)
-                    )
-                }
-            }
-
-            item {
-                OutlinedButton(onClick = { }, modifier = Modifier
-                    .fillMaxWidth()
-                    .height(50.dp)) {
-                    Icon(imageVector = Icons.Default.Facebook, contentDescription = "facebook")
-                    Text(
-                        text = "Sign in with Facebook",
-                        style = MaterialTheme.typography.h6.copy(fontSize = 14.sp),
+                            .height(32.dp)
+                            .padding(vertical = 16.dp)
+                            .clickable(onClick = {}),
                         textAlign = TextAlign.Center,
-                        modifier = Modifier.fillMaxWidth()
+                        color = MaterialTheme.colors.primary
                     )
                 }
+
+                item { Spacer(modifier = Modifier.height(100.dp)) }
             }
-
-            item { Spacer(modifier = Modifier.height(8.dp)) }
-
-            item {
-                OutlinedButton(onClick = { }, modifier = Modifier
-                    .fillMaxWidth()
-                    .height(50.dp)) {
-                    Icon(imageVector = Icons.Default.Email, contentDescription = "Gmail")
-                    Text(
-                        text = "Sign in with Gmail",
-                        style = MaterialTheme.typography.h6.copy(fontSize = 14.sp),
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier.fillMaxWidth()
-                    )
-                }
-            }
-
-            item {
-                val primaryColor = MaterialTheme.colors.primary
-                val annotatedString = remember {
-                    AnnotatedString.Builder("Don't have an account? Register")
-                        .apply {
-                            addStyle(style = SpanStyle(color = primaryColor), 23, 31)
-                        }
-                }
-                Text(
-                    text = annotatedString.toAnnotatedString(),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 16.dp)
-                        .clickable(onClick = {}),
-                    textAlign = TextAlign.Center
-                )
-            }
-
-            item { Spacer(modifier = Modifier.height(100.dp)) }
-        }
+        })
     }
 }
 
@@ -268,9 +264,11 @@ fun LottieLoadingView(context: Context) {
             repeatCount = ValueAnimator.INFINITE
         }
     }
-    AndroidView({ lottieView }, modifier = Modifier
-        .fillMaxWidth()
-        .height(250.dp)) {
+    AndroidView(
+        { lottieView }, modifier = Modifier
+            .fillMaxWidth()
+            .height(250.dp)
+    ) {
         it.playAnimation()
     }
 }
