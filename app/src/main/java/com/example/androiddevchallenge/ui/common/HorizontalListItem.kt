@@ -47,7 +47,7 @@ fun HorizontalListItem(
 
             LazyColumn(
                 modifier = Modifier
-                    .padding(horizontal = 4.dp),
+                    .padding(horizontal = 16.dp),
                 verticalArrangement = Arrangement.Center,){
                 item {
                     Text(

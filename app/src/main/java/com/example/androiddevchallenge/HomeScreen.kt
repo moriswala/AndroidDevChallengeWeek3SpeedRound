@@ -2,11 +2,16 @@ package com.example.androiddevchallenge
 
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
@@ -43,11 +48,13 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.androiddevchallenge.data.DemoDataProvider
 import com.example.androiddevchallenge.ui.common.HorizontalListItem
 import com.example.androiddevchallenge.ui.list.InstagramStories
 import com.example.androiddevchallenge.ui.theme.AppThemeState
+import com.example.androiddevchallenge.ui.theme.MyTheme
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -104,21 +111,21 @@ fun HomeScreen(value: AppThemeState, onLoginSuccess: () -> Unit) {
 @Composable
 fun itemTitle(modifier: Modifier, title: String) {
 
-    Box(modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp), ) {
+    Row(modifier = modifier.fillMaxWidth(),
+    verticalAlignment = Alignment.Bottom,
+    horizontalArrangement = Arrangement.Start){
         Text(
             text = title,
             style = MaterialTheme.typography.h2,
-            textAlign = TextAlign.Start,
-            modifier = modifier
+            modifier = Modifier.padding(bottom = 8.dp, start = 16.dp)
         )
     }
-
 }
+
 
 @Composable
 fun horizontalListView() {
     val list = remember { DemoDataProvider.itemList }
-
         LazyRow(
             modifier = Modifier.padding(end = 16.dp)
         ) {
