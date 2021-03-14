@@ -18,4 +18,8 @@
     <string name="favorite_collection">Favorite collection</string>
     <string name="align_body">Align your body</string>
     <string name="align_mind">Align your mind</string>
+    <string name="navigation_bar">Bottom navigationBar</string>
+    <string name="home">Home</string>
+    <string name="play">Play</string>
+    <string name="profile">Profile</string>
 </resources>

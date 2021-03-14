@@ -21,6 +21,7 @@ import android.view.View
 import android.view.WindowManager
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
@@ -40,6 +41,7 @@ import com.example.androiddevchallenge.ui.theme.SystemUiController
 
 @ExperimentalComposeUiApi
 class MainActivity : AppCompatActivity() {
+    @ExperimentalMaterialApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         window.apply {
@@ -52,8 +54,6 @@ class MainActivity : AppCompatActivity() {
         setContent {
             val systemUiController = remember { SystemUiController(window) }
             val appTheme = remember { mutableStateOf(AppThemeState()) }
-
-
             val navController = rememberNavController()
 
             NavHost(
@@ -62,7 +62,7 @@ class MainActivity : AppCompatActivity() {
             ) {
                 composable(NavRoutes.HOME) {
                     BaseView(appTheme.value, systemUiController, content = {
-                        HomeOnboard(appTheme.value, navController = navController)
+                        HomeOnboard(appTheme, navController = navController)
                     })
                 }
 
