@@ -4,7 +4,15 @@ import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -38,66 +46,89 @@ fun WelcomeOnboard(value: AppThemeState, navController: NavHostController) {
 @Composable
 fun WelcomeScreen(value: AppThemeState, navController: NavHostController) {
     Scaffold {
-        Box(modifier = Modifier.fillMaxHeight().background(color = MaterialTheme.colors.surface) ,content = {
-            Image(imageVector = ImageVector.vectorResource(id = if(value.darkTheme) R.drawable.dark_welcome else R.drawable.light_welcome), contentDescription = "background",modifier = Modifier.fillMaxSize(), contentScale = ContentScale.FillBounds)
-            LazyColumn(modifier = Modifier.fillMaxWidth()
+        Box(
+            modifier = Modifier
                 .fillMaxHeight()
-                .padding(horizontal = 16.dp),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally,
+                .background(color = MaterialTheme.colors.surface),
+            content = {
+                Image(
+                    imageVector = ImageVector.vectorResource(id = if (value.darkTheme) R.drawable.dark_welcome else R.drawable.light_welcome),
+                    contentDescription = "background",
+                    modifier = Modifier.fillMaxSize(),
+                    contentScale = ContentScale.FillBounds
+                )
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .fillMaxHeight()
+                        .padding(horizontal = 16.dp),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally,
 
-                ) {
-                item {
-                    Text(text = LocalContext.current.getString(R.string.app_name).toUpperCase(), style = MaterialTheme.typography.h1,
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 16.dp)
-                    )
-                }
-                item { Spacer(modifier = Modifier.height(32.dp)) }
-
-                item {
-                    OutlinedButton(onClick = { }, border = BorderStroke(1.dp, MaterialTheme.colors.primary),
-                        shape = RoundedCornerShape(20), //50% percent
-                        colors = ButtonDefaults.outlinedButtonColors(contentColor = MaterialTheme.colors.onPrimary,
-                            backgroundColor = MaterialTheme.colors.primary
-                        ),
-                        modifier = Modifier.fillMaxWidth()
-                        .height(72.dp)) {
+                    ) {
+                    item {
                         Text(
-                            text = LocalContext.current.getString(R.string.signup).toUpperCase(),
+                            text = LocalContext.current.getString(R.string.app_name).toUpperCase(),
+                            style = MaterialTheme.typography.h1,
                             textAlign = TextAlign.Center,
-                            style = MaterialTheme.typography.button,
-                            modifier = Modifier.fillMaxWidth()
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 16.dp)
                         )
                     }
-                }
+                    item { Spacer(modifier = Modifier.height(32.dp)) }
 
-                item { Spacer(modifier = Modifier.height(8.dp)) }
-
-                item {
-                    OutlinedButton(onClick = {
-                        navController.navigate(NavRoutes.LOGIN)
-                    }, border = BorderStroke(1.dp, MaterialTheme.colors.secondary),
-                        shape = RoundedCornerShape(20), //50% percent
-                        colors = ButtonDefaults.outlinedButtonColors(contentColor = MaterialTheme.colors.onPrimary,
-                            backgroundColor = MaterialTheme.colors.secondary
-                        ),
-                        modifier = Modifier.fillMaxWidth()
-                            .height(72.dp)) {
-                        Text(
-                            text = LocalContext.current.getString(R.string.login).toUpperCase(),
-                            style = MaterialTheme.typography.button,
-                            textAlign = TextAlign.Center,
-                            modifier = Modifier.fillMaxWidth()
-                        )
+                    item {
+                        OutlinedButton(
+                            onClick = { },
+                            border = BorderStroke(1.dp, MaterialTheme.colors.primary),
+                            shape = RoundedCornerShape(20), //50% percent
+                            colors = ButtonDefaults.outlinedButtonColors(
+                                contentColor = MaterialTheme.colors.onPrimary,
+                                backgroundColor = MaterialTheme.colors.primary
+                            ),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(72.dp)
+                        ) {
+                            Text(
+                                text = LocalContext.current.getString(R.string.signup)
+                                    .toUpperCase(),
+                                textAlign = TextAlign.Center,
+                                style = MaterialTheme.typography.button,
+                                modifier = Modifier.fillMaxWidth()
+                            )
+                        }
                     }
-                }
 
-                item { Spacer(modifier = Modifier.height(100.dp)) }
-            }
-        })
+                    item { Spacer(modifier = Modifier.height(8.dp)) }
+
+                    item {
+                        OutlinedButton(
+                            onClick = {
+                                navController.navigate(NavRoutes.LOGIN)
+                            }, border = BorderStroke(1.dp, MaterialTheme.colors.secondary),
+                            shape = RoundedCornerShape(20), //50% percent
+                            colors = ButtonDefaults.outlinedButtonColors(
+                                contentColor = MaterialTheme.colors.onPrimary,
+                                backgroundColor = MaterialTheme.colors.secondary
+                            ),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(72.dp)
+                        ) {
+                            Text(
+                                text = LocalContext.current.getString(R.string.login).toUpperCase(),
+                                style = MaterialTheme.typography.button,
+                                textAlign = TextAlign.Center,
+                                modifier = Modifier.fillMaxWidth()
+                            )
+                        }
+                    }
+
+                    item { Spacer(modifier = Modifier.height(100.dp)) }
+                }
+            })
 
     }
 }
