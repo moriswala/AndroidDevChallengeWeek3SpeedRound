@@ -15,7 +15,6 @@
  */
 package com.example.androiddevchallenge
 
-
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
@@ -61,28 +60,35 @@ class MainActivity : AppCompatActivity() {
                 startDestination = NavRoutes.WELCOME
             ) {
                 composable(NavRoutes.HOME) {
-                    BaseView(appTheme.value, systemUiController, content = {
-                        HomeOnboard(appTheme, navController = navController)
-                    })
+                    BaseView(
+                        appTheme.value, systemUiController,
+                        content = {
+                            HomeOnboard(appTheme, navController = navController)
+                        }
+                    )
                 }
 
                 composable(NavRoutes.LOGIN) {
-                    BaseView(appTheme.value, systemUiController, content = {
-                        LoginOnboarding(appTheme.value, navController = navController)
-                    })
+                    BaseView(
+                        appTheme.value, systemUiController,
+                        content = {
+                            LoginOnboarding(appTheme.value, navController = navController)
+                        }
+                    )
                 }
 
                 composable(NavRoutes.WELCOME) {
-                    BaseView(appTheme.value, systemUiController, content = {
-                        WelcomeOnboard(appTheme.value, navController = navController)
-                    })
+                    BaseView(
+                        appTheme.value, systemUiController,
+                        content = {
+                            WelcomeOnboard(appTheme.value, navController = navController)
+                        }
+                    )
                 }
-
             }
         }
     }
 }
-
 
 @Composable
 fun BaseView(

@@ -1,3 +1,18 @@
+/*
+ * Copyright 2021 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.example.androiddevchallenge.ui
 
 import android.animation.ValueAnimator
@@ -29,11 +44,14 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
-
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Visibility
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -50,7 +68,6 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
-
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
@@ -60,7 +77,6 @@ import androidx.navigation.compose.navigate
 import com.airbnb.lottie.LottieAnimationView
 import com.example.androiddevchallenge.NavRoutes
 import com.example.androiddevchallenge.R
-
 import com.example.androiddevchallenge.ui.common.HorizontalDottedProgressBar
 import com.example.androiddevchallenge.ui.theme.AppThemeState
 import kotlinx.coroutines.delay
@@ -92,196 +108,194 @@ fun LoginOnboarding(value: AppThemeState, navController: NavHostController) {
 fun LoginScreen(value: AppThemeState, onLoginSuccess: () -> Unit) {
     Scaffold {
 
-        //TextFields
+        // TextFields
         var email by remember { mutableStateOf(TextFieldValue("")) }
         var password by remember { mutableStateOf(TextFieldValue("")) }
         var hasError by remember { mutableStateOf(false) }
-        var passwordVisualTransformation by remember {
-            mutableStateOf<VisualTransformation>(
-                PasswordVisualTransformation()
-            )
-        }
+
         val passwordInteractionState = remember { MutableInteractionSource() }
         val emailInteractionState = remember { MutableInteractionSource() }
         val keyboardController = LocalSoftwareKeyboardController.current
 
-        Box(modifier = Modifier.fillMaxHeight().background(color = MaterialTheme.colors.surface), content = {
-            Image(
-                imageVector = ImageVector.vectorResource(id = if (value.darkTheme) R.drawable.dark_login else R.drawable.light_login),
-                contentDescription = "background",
-                modifier = Modifier.fillMaxSize(),
-                contentScale = ContentScale.FillBounds
-            )
-            LazyColumn(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight()
-                    .padding(horizontal = 16.dp),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally,
+        Box(
+            modifier = Modifier.fillMaxHeight().background(color = MaterialTheme.colors.surface),
+            content = {
+                Image(
+                    imageVector = ImageVector.vectorResource(id = if (value.darkTheme) R.drawable.dark_login else R.drawable.light_login),
+                    contentDescription = "background",
+                    modifier = Modifier.fillMaxSize(),
+                    contentScale = ContentScale.FillBounds
+                )
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .fillMaxHeight()
+                        .padding(horizontal = 16.dp),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally,
 
                 ) {
-                item {
-                    Text(
-                        text = LocalContext.current.getString(R.string.login).toUpperCase(),
-                        style = MaterialTheme.typography.h1,
-                        modifier = Modifier.padding(top = 8.dp)
-                    )
-                }
+                    item {
+                        Text(
+                            text = LocalContext.current.getString(R.string.login).toUpperCase(),
+                            style = MaterialTheme.typography.h1,
+                            modifier = Modifier.padding(top = 8.dp)
+                        )
+                    }
 
-                item { Spacer(modifier = Modifier.height(32.dp)) }
+                    item { Spacer(modifier = Modifier.height(32.dp)) }
 
-                item {
-                    TextField(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(56.dp),
-                        value = email,
-                        onValueChange = { email = it },
-                        label = {
-                            Text(
-                                text = LocalContext.current.getString(R.string.email_address),
-                                style = MaterialTheme.typography.caption,
-                                color = MaterialTheme.colors.primary
-                            )
-                        },
-                        keyboardOptions = KeyboardOptions(
-                            keyboardType = KeyboardType.Text,
-                            imeAction = ImeAction.Done,
-                        ),
-
-                        keyboardActions = KeyboardActions(
-                            onDone = {
-                                keyboardController?.hideSoftwareKeyboard()
-                            },
-                        ),
-
-                        textStyle = MaterialTheme.typography.body1,
-                        colors = TextFieldDefaults.textFieldColors(
-                            textColor = MaterialTheme.colors.primary,
-                            backgroundColor = MaterialTheme.colors.onSurface
-                        ),
-                    )
-                }
-                item { Spacer(modifier = Modifier.height(8.dp)) }
-                item {
-                    var passwordVisibility: Boolean by remember { mutableStateOf(false) }
-                    TextField(
-                        visualTransformation = if (passwordVisibility) VisualTransformation.None else PasswordVisualTransformation(),
-                        trailingIcon = {
-                            IconButton(onClick = {
-                                passwordVisibility = !passwordVisibility
-                            }) {
-                                Icon(
-                                    Icons.Filled.Visibility,
-                                    contentDescription = stringResource(id = R.string.search),
-                                    tint = MaterialTheme.colors.primary
+                    item {
+                        TextField(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(56.dp),
+                            value = email,
+                            onValueChange = { email = it },
+                            label = {
+                                Text(
+                                    text = stringResource(id = R.string.email_address),
+                                    style = MaterialTheme.typography.caption,
+                                    color = MaterialTheme.colors.primary
                                 )
-                            }
-                        },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(56.dp),
-                        value = password,
-                        onValueChange = { password = it },
-                        label = {
-                            Text(
-                                text = LocalContext.current.getString(R.string.password),
-                                style = MaterialTheme.typography.caption,
-                                color = MaterialTheme.colors.primary
-                            )
-                        },
-                        keyboardOptions = KeyboardOptions(
-                            keyboardType = KeyboardType.Password,
-                            imeAction = ImeAction.Done,
-                        ),
-
-                        keyboardActions = KeyboardActions(
-                            onDone = {
-                                keyboardController?.hideSoftwareKeyboard()
                             },
-                        ),
+                            keyboardOptions = KeyboardOptions(
+                                keyboardType = KeyboardType.Text,
+                                imeAction = ImeAction.Done,
+                            ),
 
-                        textStyle = MaterialTheme.typography.body1,
-                        colors = TextFieldDefaults.textFieldColors(
-                            textColor = MaterialTheme.colors.primary,
-                            backgroundColor = MaterialTheme.colors.onSurface
-                        ),
-                    )
-                }
-                item { Spacer(modifier = Modifier.height(8.dp)) }
-                item {
-                    var loading by remember { mutableStateOf(false) }
-                    OutlinedButton(
-                        onClick = {
-                            if (invalidInput(email.text, password.text)) {
-                                hasError = true
-                                loading = false
+                            keyboardActions = KeyboardActions(
+                                onDone = {
+                                    keyboardController?.hideSoftwareKeyboard()
+                                },
+                            ),
+
+                            textStyle = MaterialTheme.typography.body1,
+                            colors = TextFieldDefaults.textFieldColors(
+                                textColor = MaterialTheme.colors.primary,
+                                backgroundColor = MaterialTheme.colors.onSurface
+                            ),
+                        )
+                    }
+                    item { Spacer(modifier = Modifier.height(8.dp)) }
+                    item {
+                        var passwordVisibility: Boolean by remember { mutableStateOf(false) }
+                        TextField(
+                            visualTransformation = if (passwordVisibility) VisualTransformation.None else PasswordVisualTransformation(),
+                            trailingIcon = {
+                                IconButton(
+                                    onClick = {
+                                        passwordVisibility = !passwordVisibility
+                                    }
+                                ) {
+                                    Icon(
+                                        Icons.Filled.Visibility,
+                                        contentDescription = stringResource(id = R.string.search),
+                                        tint = MaterialTheme.colors.primary
+                                    )
+                                }
+                            },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(56.dp),
+                            value = password,
+                            onValueChange = { password = it },
+                            label = {
+                                Text(
+                                    text = LocalContext.current.getString(R.string.password),
+                                    style = MaterialTheme.typography.caption,
+                                    color = MaterialTheme.colors.primary
+                                )
+                            },
+                            keyboardOptions = KeyboardOptions(
+                                keyboardType = KeyboardType.Password,
+                                imeAction = ImeAction.Done,
+                            ),
+
+                            keyboardActions = KeyboardActions(
+                                onDone = {
+                                    keyboardController?.hideSoftwareKeyboard()
+                                },
+                            ),
+
+                            textStyle = MaterialTheme.typography.body1,
+                            colors = TextFieldDefaults.textFieldColors(
+                                textColor = MaterialTheme.colors.primary,
+                                backgroundColor = MaterialTheme.colors.onSurface
+                            ),
+                        )
+                    }
+                    item { Spacer(modifier = Modifier.height(8.dp)) }
+                    item {
+                        var loading by remember { mutableStateOf(false) }
+                        OutlinedButton(
+                            onClick = {
+                                if (invalidInput(email.text, password.text)) {
+                                    hasError = true
+                                    loading = false
+                                } else {
+                                    loading = true
+                                    hasError = false
+                                    onLoginSuccess.invoke()
+                                }
+                            },
+                            border = BorderStroke(1.dp, MaterialTheme.colors.primary),
+                            shape = RoundedCornerShape(20), // 50% percent
+                            colors = ButtonDefaults.outlinedButtonColors(
+                                contentColor = MaterialTheme.colors.onPrimary,
+                                backgroundColor = MaterialTheme.colors.primary
+                            ),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(72.dp)
+                        ) {
+
+                            if (loading) {
+                                HorizontalDottedProgressBar()
                             } else {
-                                loading = true
-                                hasError = false
-                                onLoginSuccess.invoke()
-                            }
-                        },
-                        border = BorderStroke(1.dp, MaterialTheme.colors.primary),
-                        shape = RoundedCornerShape(20), //50% percent
-                        colors = ButtonDefaults.outlinedButtonColors(
-                            contentColor = MaterialTheme.colors.onPrimary,
-                            backgroundColor = MaterialTheme.colors.primary
-                        ),
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(72.dp)
-                    ) {
-
-                        if (loading) {
-                            HorizontalDottedProgressBar()
-                        } else {
-                            Text(
-                                text = LocalContext.current.getString(R.string.signup)
-                                    .toUpperCase(),
-                                textAlign = TextAlign.Center,
-                                style = MaterialTheme.typography.button,
-                                modifier = Modifier.fillMaxWidth()
-                            )
-                        }
-
-
-                    }
-                }
-
-                item {
-                    val primaryColor = MaterialTheme.colors.primary
-                    val annotatedString = remember {
-                        AnnotatedString.Builder("Don't have an account? Sign up")
-                            .apply {
-                                addStyle(
-                                    style = SpanStyle(textDecoration = TextDecoration.Underline),
-                                    23,
-                                    30
+                                Text(
+                                    text = LocalContext.current.getString(R.string.signup)
+                                        .toUpperCase(),
+                                    textAlign = TextAlign.Center,
+                                    style = MaterialTheme.typography.button,
+                                    modifier = Modifier.fillMaxWidth()
                                 )
                             }
+                        }
                     }
-                    Text(
-                        text = annotatedString.toAnnotatedString(),
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(vertical = 16.dp)
-                            .clickable(onClick = {}),
-                        textAlign = TextAlign.Center,
-                        color = MaterialTheme.colors.primary
-                    )
-                }
 
-                item { Spacer(modifier = Modifier.height(100.dp)) }
+                    item {
+                        val primaryColor = MaterialTheme.colors.primary
+                        val annotatedString = remember {
+                            AnnotatedString.Builder("Don't have an account? Sign up")
+                                .apply {
+                                    addStyle(
+                                        style = SpanStyle(textDecoration = TextDecoration.Underline),
+                                        23,
+                                        30
+                                    )
+                                }
+                        }
+                        Text(
+                            text = annotatedString.toAnnotatedString(),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(vertical = 16.dp)
+                                .clickable(onClick = {}),
+                            textAlign = TextAlign.Center,
+                            color = MaterialTheme.colors.primary
+                        )
+                    }
+
+                    item { Spacer(modifier = Modifier.height(100.dp)) }
+                }
             }
-        })
+        )
     }
 }
 
 fun invalidInput(email: String, password: String) =
     email.isNullOrBlank() || password.isNullOrBlank()
-
 
 @Composable
 fun LottieLoadingView(context: Context) {
@@ -292,7 +306,8 @@ fun LottieLoadingView(context: Context) {
         }
     }
     AndroidView(
-        { lottieView }, modifier = Modifier
+        { lottieView },
+        modifier = Modifier
             .fillMaxWidth()
             .height(250.dp)
     ) {
