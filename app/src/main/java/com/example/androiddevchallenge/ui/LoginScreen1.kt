@@ -131,7 +131,10 @@ fun LoginScreen1(value: AppThemeState, onLoginSuccess: () -> Unit) {
                         ),
 
                         textStyle = MaterialTheme.typography.body1,
-                        colors = TextFieldDefaults.textFieldColors(textColor = MaterialTheme.colors.primary),
+                        colors = TextFieldDefaults.textFieldColors(
+                            textColor = MaterialTheme.colors.primary,
+                            backgroundColor = MaterialTheme.colors.onSurface
+                        ),
                     )
                 }
                 item { Spacer(modifier = Modifier.height(8.dp)) }
@@ -161,7 +164,10 @@ fun LoginScreen1(value: AppThemeState, onLoginSuccess: () -> Unit) {
                         ),
 
                         textStyle = MaterialTheme.typography.body1,
-                        colors = TextFieldDefaults.textFieldColors(textColor = MaterialTheme.colors.primary),
+                        colors = TextFieldDefaults.textFieldColors(
+                            textColor = MaterialTheme.colors.primary,
+                            backgroundColor = MaterialTheme.colors.onSurface
+                        ),
                     )
                 }
                 item { Spacer(modifier = Modifier.height(8.dp)) }

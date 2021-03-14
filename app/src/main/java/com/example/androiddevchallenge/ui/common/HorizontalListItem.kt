@@ -1,6 +1,8 @@
 package com.example.androiddevchallenge.ui.common
 
+import android.graphics.fonts.FontStyle
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -11,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.ScaleFactor
 import androidx.compose.ui.platform.LocalContext
@@ -29,9 +32,8 @@ fun HorizontalListItem(
     item: Item,
     modifier: Modifier = Modifier
 ) {
-    Card(
-        shape = MaterialTheme.shapes.medium,
-        modifier = modifier.size(192.dp, 56.dp)
+    Box(
+        modifier = modifier.size(192.dp, 56.dp).background(color = MaterialTheme.colors.onSurface)
     ) {
 
         Row(modifier = Modifier.clickable(onClick = { }),
@@ -52,6 +54,7 @@ fun HorizontalListItem(
                 item {
                     Text(
                         text = item.title,
+                        color = MaterialTheme.colors.primary,
                         style = MaterialTheme.typography.h3,
                         maxLines = 2,
                         overflow = TextOverflow.Ellipsis,

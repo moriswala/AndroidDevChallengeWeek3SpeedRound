@@ -63,6 +63,6 @@ fun StoryListItem(post: Tweet) {
         )
         Text(text = post.author,
             style = typography.caption, textAlign = TextAlign.Center,
-        modifier = Modifier.height(24.dp))
+        modifier = Modifier.height(24.dp).padding(top = 8.dp))
     }
 }
