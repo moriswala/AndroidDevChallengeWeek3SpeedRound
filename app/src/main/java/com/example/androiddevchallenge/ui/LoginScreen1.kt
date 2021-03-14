@@ -5,6 +5,7 @@ import android.content.Context
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
@@ -79,7 +80,7 @@ fun LoginScreen1(value: AppThemeState, onLoginSuccess: () -> Unit) {
         val emailInteractionState = remember { MutableInteractionSource() }
         val keyboardController = LocalSoftwareKeyboardController.current
 
-        Box(modifier = Modifier.fillMaxHeight(), content = {
+        Box(modifier = Modifier.fillMaxHeight().background(color = MaterialTheme.colors.surface), content = {
             Image(
                 imageVector = ImageVector.vectorResource(id = if (value.darkTheme) R.drawable.dark_login else R.drawable.light_login),
                 contentDescription = "background",

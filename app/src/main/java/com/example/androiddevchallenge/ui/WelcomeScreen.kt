@@ -3,6 +3,7 @@ package com.example.androiddevchallenge.ui
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -37,7 +38,7 @@ fun WelcomeOnboard(value: AppThemeState, navController: NavHostController) {
 @Composable
 fun WelcomeScreen(value: AppThemeState, navController: NavHostController) {
     Scaffold {
-        Box(modifier = Modifier.fillMaxHeight() ,content = {
+        Box(modifier = Modifier.fillMaxHeight().background(color = MaterialTheme.colors.surface) ,content = {
             Image(imageVector = ImageVector.vectorResource(id = if(value.darkTheme) R.drawable.dark_welcome else R.drawable.light_welcome), contentDescription = "background",modifier = Modifier.fillMaxSize(), contentScale = ContentScale.FillBounds)
             LazyColumn(modifier = Modifier.fillMaxWidth()
                 .fillMaxHeight()
