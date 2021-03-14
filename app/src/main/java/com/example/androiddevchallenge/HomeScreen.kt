@@ -103,7 +103,7 @@ fun HomeScreen(value: AppThemeState, onLoginSuccess: () -> Unit) {
 
 @Composable
 fun itemTitle(modifier: Modifier, title: String) {
-    
+
     Box(modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp), ) {
         Text(
             text = title,

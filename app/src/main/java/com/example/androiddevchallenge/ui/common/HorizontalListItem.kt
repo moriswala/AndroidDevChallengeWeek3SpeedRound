@@ -3,6 +3,7 @@ package com.example.androiddevchallenge.ui.common
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -14,6 +15,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.ScaleFactor
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -32,7 +34,8 @@ fun HorizontalListItem(
         modifier = modifier.size(192.dp, 56.dp)
     ) {
 
-        Row(modifier = Modifier.clickable(onClick = { })) {
+        Row(modifier = Modifier.clickable(onClick = { }),
+            verticalAlignment = Alignment.CenterVertically) {
             Image(
                 painter = painterResource(id = item.imageId),
                 contentScale = ContentScale.Crop,
@@ -42,14 +45,19 @@ fun HorizontalListItem(
                     .width(56.dp)
             )
 
-            Box(contentAlignment = Alignment.Center){
-                Text(
-                    text = item.title,
-                    modifier = modifier.fillMaxHeight(),
-                    style = MaterialTheme.typography.h3,
-                    maxLines = 2,
-                    overflow = TextOverflow.Ellipsis
-                )
+            LazyColumn(
+                modifier = Modifier
+                    .padding(horizontal = 4.dp),
+                verticalArrangement = Arrangement.Center,){
+                item {
+                    Text(
+                        text = item.title,
+                        style = MaterialTheme.typography.h3,
+                        maxLines = 2,
+                        overflow = TextOverflow.Ellipsis,
+                        textAlign = TextAlign.Start
+                    )
+                }
             }
 
         }
