@@ -19,7 +19,8 @@ It was intended to learn newly released android jetpack-compose. I really enjoye
 <!-- You can add more screenshots here if you like -->
 <img src="/results/screenshot_1.png" width="260">&emsp;<img src="/results/screenshot_2.png" width="260">&emsp;<img src="/results/screenshot_3.png" width="260">
 <img src="/results/screenshot_11.png" width="260">&emsp;<img src="/results/screenshot_12.png" width="260">&emsp;<img src="/results/screenshot_13.png" width="260">
-
+&emsp;<img src="https://github.com/moriswala/AndroidDevChallengeWeek3SpeedRound/blob/main/results/demo_light.gif" title="#AndroidDevChallenge(Week #2)"/>
+&emsp;<img src="https://github.com/moriswala/AndroidDevChallengeWeek3SpeedRound/blob/main/results/demo_dark.gif" title="#AndroidDevChallenge(Week #2)"/>
 ## License
 ```
 Copyright 2020 The Android Open Source Project
