@@ -52,7 +52,7 @@ fun LoginOnboarding(value: AppThemeState, navController: NavHostController) {
                 loggedIn = false
             }
         } else {*/
-        LoginScreen1(value) {
+        LoginScreen(value) {
             coroutineScope.launch {
                 delay(2000)
                 loggedIn = true
@@ -64,7 +64,7 @@ fun LoginOnboarding(value: AppThemeState, navController: NavHostController) {
 
 @ExperimentalComposeUiApi
 @Composable
-fun LoginScreen1(value: AppThemeState, onLoginSuccess: () -> Unit) {
+fun LoginScreen(value: AppThemeState, onLoginSuccess: () -> Unit) {
     Scaffold {
 
         //TextFields
