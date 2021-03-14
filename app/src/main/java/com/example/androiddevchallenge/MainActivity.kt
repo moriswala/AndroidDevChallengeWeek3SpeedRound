@@ -58,7 +58,7 @@ class MainActivity : AppCompatActivity() {
 
             NavHost(
                 navController = navController,
-                startDestination = NavRoutes.HOME
+                startDestination = NavRoutes.WELCOME
             ) {
                 composable(NavRoutes.HOME) {
                     BaseView(appTheme.value, systemUiController, content = {
