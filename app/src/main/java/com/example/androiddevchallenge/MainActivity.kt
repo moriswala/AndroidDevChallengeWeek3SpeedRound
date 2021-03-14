@@ -29,6 +29,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.graphics.Color.Companion.Transparent
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.example.androiddevchallenge.ui.LoginOnboarding
 import com.example.androiddevchallenge.ui.WelcomeOnboard
 import com.example.androiddevchallenge.ui.theme.AppThemeState
@@ -49,12 +52,37 @@ class MainActivity : AppCompatActivity() {
         setContent {
             val systemUiController = remember { SystemUiController(window) }
             val appTheme = remember { mutableStateOf(AppThemeState()) }
-            BaseView(appTheme.value, systemUiController, content = {
-                HomeOnboard(appTheme.value)
-            })
+
+
+            val navController = rememberNavController()
+
+            NavHost(
+                navController = navController,
+                startDestination = NavRoutes.WELCOME
+            ) {
+                composable(NavRoutes.HOME) {
+                    BaseView(appTheme.value, systemUiController, content = {
+                        HomeOnboard(appTheme.value, navController = navController)
+                    })
+                }
+
+                composable(NavRoutes.LOGIN) {
+                    BaseView(appTheme.value, systemUiController, content = {
+                        LoginOnboarding(appTheme.value, navController = navController)
+                    })
+                }
+
+                composable(NavRoutes.WELCOME) {
+                    BaseView(appTheme.value, systemUiController, content = {
+                        WelcomeOnboard(appTheme.value, navController = navController)
+                    })
+                }
+
+            }
         }
     }
 }
+
 
 @Composable
 fun BaseView(

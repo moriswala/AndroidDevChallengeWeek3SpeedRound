@@ -3,49 +3,39 @@ package com.example.androiddevchallenge.ui
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Email
-import androidx.compose.material.icons.filled.Facebook
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.navigate
+import com.example.androiddevchallenge.NavRoutes
 import com.example.androiddevchallenge.R
 
 import com.example.androiddevchallenge.ui.theme.AppThemeState
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 
 @Composable
-fun WelcomeOnboard(value: AppThemeState) {
+fun WelcomeOnboard(value: AppThemeState, navController: NavHostController) {
     var loggedIn by remember { mutableStateOf(false) }
     val coroutineScope = rememberCoroutineScope()
     Crossfade(targetState = loggedIn) {
 
-        WelcomeScreen(value) {
-            coroutineScope.launch {
-                delay(2000)
-                loggedIn = true
-            }
-        }
+        WelcomeScreen(value, navController)
     }
 }
 
 @Composable
-fun WelcomeScreen(value: AppThemeState, onLoginSuccess: () -> Unit) {
+fun WelcomeScreen(value: AppThemeState, navController: NavHostController) {
     Scaffold {
         Box(modifier = Modifier.fillMaxHeight() ,content = {
             Image(imageVector = ImageVector.vectorResource(id = if(value.darkTheme) R.drawable.dark_welcome else R.drawable.light_welcome), contentDescription = "background",modifier = Modifier.fillMaxSize(), contentScale = ContentScale.FillBounds)
@@ -87,7 +77,7 @@ fun WelcomeScreen(value: AppThemeState, onLoginSuccess: () -> Unit) {
 
                 item {
                     OutlinedButton(onClick = {
-
+                        navController.navigate(NavRoutes.LOGIN)
                     }, border = BorderStroke(1.dp, MaterialTheme.colors.secondary),
                         shape = RoundedCornerShape(20), //50% percent
                         colors = ButtonDefaults.outlinedButtonColors(contentColor = MaterialTheme.colors.onPrimary,
