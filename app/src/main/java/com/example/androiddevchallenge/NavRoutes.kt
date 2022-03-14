@@ -19,4 +19,5 @@ object NavRoutes {
     val HOME = "HOME"
     val WELCOME = "WELCOME"
     val LOGIN = "LOGIN"
+    val NEW = "NEW_SCREEN"
 }
